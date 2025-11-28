@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donghua Hub - Chinese Anime Downloads</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 107, 107, 0.5)); }
+            50% { filter: drop-shadow(0 0 15px rgba(255, 107, 107, 0.8)); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff6b6b;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 5% 2rem;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-bar input:focus {
+            border-color: #ff6b6b;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-bar button:hover {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Featured Slider Section */
+        .slider-section {
+            padding: 2rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            position: relative;
+            height: 450px;
+        }
+
+        .slide-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 3rem;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+        }
+
+        .slide-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .slide-desc {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+            max-width: 600px;
+        }
+
+        .slide-meta {
+            display: flex;
+            gap: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .slide-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 107, 107, 0.8);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .slider-btn:hover {
+            background: #ff6b6b;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slider-btn.prev {
+            left: 20px;
+        }
+
+        .slider-btn.next {
+            right: 20px;
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 1.5rem 0;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #ff6b6b;
+            transform: scale(1.2);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 5%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+        }
+
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .anime-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideUp 0.5s ease-out;
+            text-decoration: none;
+            color: #fff;
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .anime-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+            border-color: #ff6b6b;
+        }
+
+        .anime-img {
+            width: 100%;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .anime-img::before {
+            content: '🎬';
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .anime-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .anime-rating {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .anime-rating i {
+            color: #ffc107;
+        }
+
+        .anime-info {
+            padding: 1.5rem;
+        }
+
+        .anime-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .anime-meta {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .categories {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .category-tag {
+            padding: 0.5rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-tag:hover, .category-tag.active {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            border-color: transparent;
+            transform: scale(1.05);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: modalSlide 0.4s ease;
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: scale(0.9) translateY(50px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 107, 107, 0.8);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: #ff6b6b;
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-header-bg {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+        }
+
+        .modal-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(transparent, #1a1a2e);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .modal-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .modal-meta-item i {
+            color: #ff6b6b;
+        }
+
+        .modal-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .download-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .download-section h3 {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .download-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .download-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .download-option:hover {
+            border-color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .download-option .quality {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .download-option .size {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .download-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Professional Footer */
+        footer {
+            background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.5));
+            margin-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-characters {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .character-left {
+            position: absolute;
+            left: -20px;
+            bottom: -20px;
+            font-size: 200px;
+            opacity: 0.15;
+            transform: scaleX(-1);
+            animation: floatCharLeft 6s ease-in-out infinite;
+        }
+
+        .character-right {
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            font-size: 200px;
+            opacity: 0.15;
+            animation: floatCharRight 6s ease-in-out infinite;
+        }
+
+        @keyframes floatCharLeft {
+            0%, 100% { transform: scaleX(-1) translateY(0); }
+            50% { transform: scaleX(-1) translateY(-20px); }
+        }
+
+        @keyframes floatCharRight {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-main {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #ff6b6b;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #ff6b6b;
+        }
+
+        .footer-about p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: #ff6b6b;
+            transform: translateX(5px);
+        }
+
+        .footer-links a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px) rotate(10deg);
+            border-color: #ff6b6b;
+        }
+
+        .social-icon.facebook:hover { background: #1877f2; }
+        .social-icon.twitter:hover { background: #1da1f2; }
+        .social-icon.instagram:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .social-icon.youtube:hover { background: #ff0000; }
+        .social-icon.discord:hover { background: #5865f2; }
+        .social-icon.telegram:hover { background: #0088cc; }
+        .social-icon.tiktok:hover { background: #000; border-color: #ff0050; }
+        .social-icon.weibo:hover { background: #e6162d; }
+
+        .newsletter {
+            margin-top: 1rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            color: #fff;
+            outline: none;
+        }
+
+        .newsletter-form input:focus {
+            border-color: #ff6b6b;
+        }
+
+        .newsletter-form button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            transform: scale(1.05);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-bottom-links a:hover {
+            color: #ff6b6b;
+        }
+
+        .chinese-decor {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.3;
+        }
+
+        .chinese-decor.top-left {
+            top: 20px;
+            left: 20px;
+        }
+
+        .chinese-decor.top-right {
+            top: 20px;
+            right: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .nav-links { gap: 1rem; font-size: 0.9rem; }
+            .anime-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+            .slide { height: 350px; }
+            .slide-title { font-size: 1.5rem; }
+            .modal { width: 95%; }
+            .modal-header { height: 200px; }
+            .character-left, .character-right { font-size: 120px; opacity: 0.1; }
+            .footer-main { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="logo">Donghua Hub</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#latest">Latest</a></li>
+            <li><a href="#popular">Popular</a></li>
+            <li><a href="#genres">Genres</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>Discover Chinese Anime</h1>
+        <p>Download premium donghua episodes in high quality</p>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for anime titles...">
+            <button>Search</button>
+        </div>
+    </section>
+
+    <!-- Featured Slider -->
+    <section class="slider-section">
+        <div class="slider-container">
+            <div class="slider">
+                <div class="slide">
+                    <div class="slide-bg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 8rem;">⚔️</div>
+                    <div class="slide-content">
+                        <h2 class="slide-title">Battle Through the Heavens</h2>
+                        <p class="slide-desc">Follow Xiao Yan's journey as he strives to regain his lost power and protect those he loves in a world of martial arts and alchemy.</p>
+                        <div class="slide-meta">
+                            <span><i class="fas fa-play-circle"></i> Episode 52</span>
+                            <span><i class="fas fa-star"></i> 9.2 Rating</span>
+                            <span><i class="fas fa-eye"></i> 5M Views</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="slide-bg" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; font-size: 8rem;">🌟</div>
+                    <div class="slide-content">
+                        <h2 class="slide-title">Soul Land</h2>
+                        <p class="slide-desc">Tang San, born into a world of martial souls, embarks on an epic adventure to become the most powerful soul master.</p>
+                        <div class="slide-meta">
+                            <span><i class="fas fa-play-circle"></i> Episode 265</span>
+                            <span><i class="fas fa-star"></i> 9.5 Rating</span>
+                            <span><i class="fas fa-eye"></i> 10M Views</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="slide-bg" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; font-size: 8rem;">🎮</div>
+                    <div class="slide-content">
+                        <h2 class="slide-title">The King's Avatar</h2>
+                        <p class="slide-desc">A legendary pro gamer is forced to retire but starts his journey back to the top with a new character and team.</p>
+                        <div class="slide-meta">
+                            <span><i class="fas fa-play-circle"></i> Episode 40</span>
+                            <span><i class="fas fa-star"></i> 9.3 Rating</span>
+                            <span><i class="fas fa-eye"></i> 8M Views</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="slider-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+        </div>
+    </section>
+
+    <div class="container">
+        <h2 class="section-title">Popular Categories</h2>
+        <div class="categories">
+            <span class="category-tag active">All</span>
+            <span class="category-tag">Action</span>
+            <span class="category-tag">Fantasy</span>
+            <span class="category-tag">Romance</span>
+            <span class="category-tag">Cultivation</span>
+            <span class="category-tag">Historical</span>
+        </div>
+
+        <h2 class="section-title">Latest Releases</h2>
+        <div class="anime-grid">
+            <div class="anime-card" data-anime="btth">
+                <div class="anime-img" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="anime-badge">NEW</div>
+                    <div class="anime-rating"><i class="fas fa-star"></i> 9.2</div>
+                </div>
+                <div class="anime-info">
+                    <div class="anime-title">Battle Through the Heavens</div>
+                    <div class="anime-meta">
+                        <span>Episode 52</span>
+                        <span>1080p</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="anime-card" data-anime="tka">
+                <div class="anime-img" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="anime-badge">HOT</div>
+                    <div class="anime-rating"><i class="fas fa-star"></i> 9.3</div>
+                </div>
+                <div class="anime-info">
+                    <div class="anime-title">The King's Avatar</div>
+                    <div class="anime-meta">
+                        <span>Episode 40</span>
+                        <span>1080p</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="anime-card" data-anime="soul-land">
+                <div class="anime-img" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="anime-badge">POPULAR</div>
+                    <div class="anime-rating"><i class="fas fa-star"></i> 9.5</div>
+                </div>
+                <div class="anime-info">
+                    <div class="anime-title">Soul Land</div>
+                    <div class="anime-meta">
+                        <span>Episode 265</span>
+                        <span>1080p</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="anime-card" data-anime="tdg">
+                <div class="anime-img" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="anime-rating"><i class="fas fa-star"></i> 8.9</div>
+                </div>
+                <div class="anime-info">
+                    <div class="anime-title">Tales of Demons and Gods</div>
+                    <div class="anime-meta">
+                        <span>Episode 48</span>
+                        <span>1080p</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="anime-card" data-anime="dlik">
+                <div class="anime-img" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <div class="anime-badge">NEW</div>
+                    <div class="anime-rating"><i class="fas fa-star"></i> 9.0</div>
+                </div>
+                <div class="anime-info">
+                    <div class="anime-title">The Daily Life of the Immortal King</div>
+                    <div class="anime-meta">
+                        <span>Episode 30</span>
+                        <span>1080p</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="anime-card" data-anime="stellar">
+                <div class="anime-img" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                    <div class="anime-rating"><i class="fas fa-star"></i> 8.8</div>
+                </div>
+                <div class="anime-info">
+                    <div class="anime-title">Stellar Transformations</div>
+                    <div class="anime-meta">
+                        <span>Episode 25</span>
+                        <span>1080p</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Anime Detail Modal -->
+    <div class="modal-overlay" id="animeModal">
+        <div class="modal">
+            <button class="modal-close"><i class="fas fa-times"></i></button>
+            <div class="modal-header">
+                <div class="modal-header-bg" id="modalBg">🎬</div>
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title" id="modalTitle">Anime Title</h2>
+                <div class="modal-meta">
+                    <div class="modal-meta-item">
+                        <i class="fas fa-calendar"></i>
+                        <span id="modalYear">2024</span>
+                    </div>
+                    <div class="modal-meta-item">
+                        <i class="fas fa-film"></i>
+                        <span id="modalEpisodes">52 Episodes</span>
+                    </div>
+                    <div class="modal-meta-item">
+                        <i class="fas fa-star"></i>
+                        <span id="modalRating">9.2</span>
+                    </div>
+                    <div class="modal-meta-item">
+                        <i class="fas fa-tag"></i>
+                        <span id="modalGenre">Action, Fantasy</span>
+                    </div>
+                </div>
+                <p class="modal-description" id="modalDesc">
+                    Description will appear here...
+                </p>
+
+                <div class="download-section">
+                    <h3><i class="fas fa-download"></i> Download Options</h3>
+                    <div class="download-options">
+                        <div class="download-option">
+                            <div class="quality">480p</div>
+                            <div class="size">~150 MB</div>
+                            <button class="download-btn"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                        <div class="download-option">
+                            <div class="quality">720p</div>
+                            <div class="size">~350 MB</div>
+                            <button class="download-btn"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                        <div class="download-option">
+                            <div class="quality">1080p</div>
+                            <div class="size">~700 MB</div>
+                            <button class="download-btn"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Professional Footer -->
+    <footer>
+        <div class="footer-characters">
+            <div class="character-left">🥷</div>
+            <div class="character-right">⚔️</div>
+        </div>
+        
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-section footer-about">
+                    <div class="footer-logo">Donghua Hub</div>
+                    <p>Your ultimate destination for premium Chinese anime (Donghua). We provide high-quality downloads of the latest and most popular Chinese animated series.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-icon discord"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="social-icon telegram"><i class="fab fa-telegram-plane"></i></a>
+                        <a href="#" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" class="social-icon weibo"><i class="fab fa-weibo"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Latest Releases</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Popular Donghua</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Genres</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Schedule</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Random Anime</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Top Genres</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-fire"></i> Action</a></li>
+                        <li><a href="#"><i class="fas fa-hat-wizard"></i> Fantasy</a></li>
+                        <li><a href="#"><i class="fas fa-heart"></i> Romance</a></li>
+                        <li><a href="#"><i class="fas fa-yin-yang"></i> Cultivation</a></li>
+                        <li><a href="#"><i class="fas fa-scroll"></i> Historical</a></li>
+                        <li><a href="#"><i class="fas fa-laugh"></i> Comedy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Newsletter</h3>
+                    <div class="newsletter">
+                        <p style="color: rgba(255,255,255,0.7); margin-bottom: 1rem;">Subscribe to get updates on latest releases and exclusive content!</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Enter your email">
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                    <ul class="footer-links" style="margin-top: 1.5rem;">
+                        <li><a href="#"><i class="fas fa-envelope"></i> contact@donghuahub.com</a></li>
+                        <li><a href="#"><i class="fas fa-headset"></i> 24/7 Support</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Donghua Hub. All rights reserved. 东华动漫</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">DMCA</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Slider functionality
+        const slider = document.querySelector('.slider');
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.querySelector('.slider-btn.prev');
+        const nextBtn = document.querySelector('.slider-btn.next');
+        const dots = document.querySelectorAll('.dot');
+        let currentSlide = 0;
+        let autoSlideInterval;
+
+        function goToSlide(index) {
+            currentSlide = index;
+            if (currentSlide < 0) currentSlide = slides.length - 1;
+            if (currentSlide >= slides.length) currentSlide = 0;
+            
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(nextSlide, 5000);
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            stopAutoSlide();
+            startAutoSlide();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            stopAutoSlide();
+            startAutoSlide();
+        });
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                goToSlide(parseInt(dot.dataset.index));
+                stopAutoSlide();
+                startAutoSlide();
+            });
+        });
+
+        startAutoSlide();
+
+        // Category filter animation
+        document.querySelectorAll('.category-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Anime data for modal
+        const animeData = {
+            'btth': {
+                title: 'Battle Through the Heavens',
+                year: '2017 - Present',
+                episodes: '52 Episodes (Season 5)',
+                rating: '9.2',
+                genre: 'Action, Fantasy, Cultivation',
+                desc: 'Follow Xiao Yan, once considered a genius until his powers mysteriously vanished. With the help of a mysterious old soul living in his ring, Xiao Yan embarks on an epic journey to regain his lost powers and become the greatest alchemist in the world. Face powerful enemies, forge unbreakable bonds, and witness breathtaking battles!',
+                bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+            },
+            'tka': {
+                title: "The King's Avatar",
+                year: '2017 - Present',
+                episodes: '40 Episodes (Season 2)',
+                rating: '9.3',
+                genre: 'Action, Gaming, Sports',
+                desc: 'Ye Xiu, the legendary pro-gamer known as the "Battle God," is forced to retire from Glory, the most popular online game. But his story is far from over. Starting from scratch with a new character, he returns to compete at the highest level. Watch as he builds a new team and fights his way back to the top!',
+                bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
+            },
+            'soul-land': {
+                title: 'Soul Land',
+                year: '2018 - Present',
+                episodes: '265+ Episodes',
+                rating: '9.5',
+                genre: 'Action, Fantasy, Adventure',
+                desc: 'Tang San, a former Tang Sect member, is reborn into a world of martial souls called Douluo Continent. With his hidden weapon techniques and unique twin martial souls, Tang San embarks on an epic journey to become the most powerful Soul Master. Discover a rich world filled with spirit beasts, soul rings, and legendary battles!',
+                bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
+            },
+            'tdg': {
+                title: 'Tales of Demons and Gods',
+                year: '2017 - Present',
+                episodes: '48 Episodes',
+                rating: '8.9',
+                genre: 'Action, Fantasy, Cultivation',
+                desc: 'Nie Li, the strongest Demon Spiritist, is killed by the Sage Emperor and reborn as his 13-year-old self. With the knowledge of his previous life, he vows to save his loved ones and city from the coming disaster. Watch as he cultivates, grows stronger, and changes the fate of those around him!',
+                bg: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'
+            },
+            'dlik': {
+                title: 'The Daily Life of the Immortal King',
+                year: '2020 - Present',
+                episodes: '30 Episodes (Season 3)',
+                rating: '9.0',
+                genre: 'Comedy, Action, Fantasy',
+                desc: 'Wang Ling is an incredibly powerful cultivator who just wants to live a normal life. Despite his godlike powers that he has to constantly suppress, he faces the most dangerous challenge of all: high school. A hilarious and action-packed series that blends comedy with epic cultivation battles!',
+                bg: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
+            },
+            'stellar': {
+                title: 'Stellar Transformations',
+                year: '2018 - Present',
+                episodes: '25 Episodes',
+                rating: '8.8',
+                genre: 'Action, Fantasy, Cultivation',
+                desc: 'Qin Yu, unable to cultivate internal energy like his brothers, discovers an extraordinary path to power through external training. When he finds a mysterious meteor, his life changes forever. Follow his journey from the mortal realm to the stars as he seeks to reunite with his father!',
+                bg: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)'
+            }
+        };
+
+        // Modal functionality
+        const modal = document.getElementById('animeModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalYear = document.getElementById('modalYear');
+        const modalEpisodes = document.getElementById('modalEpisodes');
+        const modalRating = document.getElementById('modalRating');
+        const modalGenre = document.getElementById('modalGenre');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalBg = document.getElementById('modalBg');
+        const modalClose = document.querySelector('.modal-close');
+
+        document.querySelectorAll('.anime-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const animeId = this.dataset.anime;
+                const anime = animeData[animeId];
+                
+                if (anime) {
+                    modalTitle.textContent = anime.title;
+                    modalYear.textContent = anime.year;
+                    modalEpisodes.textContent = anime.episodes;
+                    modalRating.textContent = anime.rating;
+                    modalGenre.textContent = anime.genre;
+                    modalDesc.textContent = anime.desc;
+                    modalBg.style.background = anime.bg;
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        modalClose.addEventListener('click', function() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Download button interaction
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing...';
+                this.disabled = true;
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-check"></i> Ready!';
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.disabled = false;
+                    }, 1500);
+                }, 2000);
+            });
+        });
+
+        // Anime card animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.animation = 'slideUp 0.5s ease-out forwards';
+                    }, index * 100);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.anime-card').forEach(card => {
+            card.style.opacity = '0';
+            observer.observe(card);
+        });
+
+        // Newsletter form
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const input = this.querySelector('input');
+            const button = this.querySelector('button');
+            const originalHtml = button.innerHTML;
+            
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-check"></i>';
+                input.value = '';
+                setTimeout(() => {
+                    button.innerHTML = originalHtml;
+                }, 2000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
